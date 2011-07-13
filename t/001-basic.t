@@ -19,6 +19,12 @@ $client->create( payload => {
     age        => 38
 });
 
-use Data::Dumper; warn Dumper $client->read( id => 1 )->body;
+my $resource = $client->read( id => 1 )->body;
+
+$resource->set('age' => 39);
+
+$client->edit( id => 1, payload => $resource->pack );
+
+use Data::Dumper;warn Dumper $client->read( id => 1 )->body;
 
 done_testing;

@@ -2,7 +2,7 @@ package Jackalope::Client::Spore::Middleware::InflateResource;
 use Moose;
 
 use Data::Dumper;
-use Jackalope::REST::Resource;
+use Jackalope::Client::Spore::Resource;
 
 extends 'Net::HTTP::Spore::Middleware';
 
@@ -15,10 +15,10 @@ sub call {
             if ( $res->body ) {
                 my $body = $res->body;
                 if ( ref $body eq 'ARRAY' ) {
-                    $res->body([ map { Jackalope::REST::Resource->new( $_ ) } @$body ]);
+                    $res->body([ map { Jackalope::Client::Spore::Resource->new( $_ ) } @$body ]);
                 }
                 else {
-                    $res->body( Jackalope::REST::Resource->new( $body ) );
+                    $res->body( Jackalope::Client::Spore::Resource->new( $body ) );
                 }
             }
         }
