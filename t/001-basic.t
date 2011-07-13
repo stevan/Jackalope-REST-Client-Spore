@@ -19,6 +19,6 @@ $client->create( payload => {
     age        => 38
 });
 
-use Data::Dumper; warn Dumper $client->list;
+use Data::Dumper; warn Dumper $client->read( id => 1 )->body;
 
 done_testing;
