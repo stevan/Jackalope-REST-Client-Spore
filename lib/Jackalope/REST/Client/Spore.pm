@@ -1,7 +1,7 @@
 package Jackalope::REST::Client::Spore;
 use Moose;
 
-use JSON::XS;
+use Jackalope::Util qw[ encode_json ];
 use Net::HTTP::Spore;
 
 our $VERSION   = '0.01';
@@ -17,10 +17,8 @@ sub discover {
     # okay? I dunno.
     # - SL
 
-    my $JSON = JSON::XS->new;
-
     my $discovery_client = Net::HTTP::Spore->new_from_string(
-        $JSON->encode({
+        encode_json({
             base_url => $base_url,
             version  => '0.01',
             methods  => {
@@ -54,7 +52,7 @@ sub discover {
     }
 
     my $client = Net::HTTP::Spore->new_from_string(
-        $JSON->encode({
+        encode_json({
             base_url => $base_url,
             version  => '0.01',
             methods  => $methods
