@@ -17,8 +17,10 @@ sub discover {
     # okay? I dunno.
     # - SL
 
+    my $JSON = JSON::XS->new;
+
     my $discovery_client = Net::HTTP::Spore->new_from_string(
-        JSON::XS->new->encode({
+        $JSON->encode({
             base_url => $base_url,
             version  => '0.01',
             methods  => {
@@ -43,7 +45,7 @@ sub discover {
     }
 
     my $client = Net::HTTP::Spore->new_from_string(
-        JSON::XS->new->encode({
+        $JSON->encode({
             base_url => $base_url,
             version  => '0.01',
             methods  => $methods
