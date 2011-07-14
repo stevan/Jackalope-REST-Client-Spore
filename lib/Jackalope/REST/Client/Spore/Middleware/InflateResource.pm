@@ -1,8 +1,10 @@
 package Jackalope::REST::Client::Spore::Middleware::InflateResource;
 use Moose;
 
-use Data::Dumper;
 use Jackalope::REST::Client::Spore::Resource;
+
+our $VERSION   = '0.01';
+our $AUTHORITY = 'cpan:STEVAN';
 
 extends 'Net::HTTP::Spore::Middleware';
 

@@ -1,8 +1,11 @@
 package Jackalope::REST::Client::Spore;
 use Moose;
 
-use Net::HTTP::Spore;
 use JSON::XS;
+use Net::HTTP::Spore;
+
+our $VERSION   = '0.01';
+our $AUTHORITY = 'cpan:STEVAN';
 
 sub discover {
     my ($self, $base_url) = @_;
