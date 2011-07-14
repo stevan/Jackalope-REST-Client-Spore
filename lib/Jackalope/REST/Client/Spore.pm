@@ -1,4 +1,4 @@
-package Jackalope::Client::Spore;
+package Jackalope::REST::Client::Spore;
 use Moose;
 
 use Net::HTTP::Spore;
@@ -39,8 +39,6 @@ sub discover {
         $methods->{ $linkrel->{'rel'} } = $self->jackalope_linkrel_to_spore_method( $linkrel );
     }
 
-    use Data::Dumper; warn Dumper $methods;
-
     my $client = Net::HTTP::Spore->new_from_string(
         JSON::XS->new->encode({
             base_url => $base_url,
@@ -48,7 +46,7 @@ sub discover {
             methods  => $methods
         })
     );
-    $client->enable('+Jackalope::Client::Spore::Middleware::InflateResource');
+    $client->enable('+Jackalope::REST::Client::Spore::Middleware::InflateResource');
     $client->enable('Format::JSON');
 
     $client;
@@ -114,7 +112,7 @@ __END__
 
 =head1 SYNOPSIS
 
-  use Jackalope::Client::Spore;
+  use Jackalope::REST::Client::Spore;
 
 =head1 DESCRIPTION
 

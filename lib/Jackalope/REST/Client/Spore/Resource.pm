@@ -1,4 +1,4 @@
-package Jackalope::Client::Spore::Resource;
+package Jackalope::REST::Client::Spore::Resource;
 use Moose;
 
 use Scalar::Util 'looks_like_number';
@@ -56,7 +56,7 @@ __END__
 
 =head1 SYNOPSIS
 
-  use Jackalope::Client::Spore::Resource;
+  use Jackalope::REST::Client::Spore::Resource;
 
 =head1 DESCRIPTION
 

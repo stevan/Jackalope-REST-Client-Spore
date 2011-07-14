@@ -1,4 +1,4 @@
-# Jackalope-Client-Spore
+# Jackalope-REST-Client-Spore
 
 This is an experiment in trying to auto-generate a SPORE client for
 a Jackalope::REST web service. It is still quite incomplete and

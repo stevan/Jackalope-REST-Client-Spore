@@ -9,9 +9,9 @@ use Test::Moose;
 
 use Data::Dumper;
 
-use Jackalope::Client::Spore;
+use Jackalope::REST::Client::Spore;
 
-my $client = Jackalope::Client::Spore->discover('http://localhost:3000/');
+my $client = Jackalope::REST::Client::Spore->discover('http://localhost:3000/');
 
 $client->create( payload => {
     first_name => 'Stevan',
