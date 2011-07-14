@@ -34,6 +34,15 @@ sub discover {
     );
     $discovery_client->enable('Format::JSON');
 
+    # TODO:
+    # if we start using custom content-types
+    # in Jackalope, we should make a note of
+    # the content type returned by this initial
+    # discovery action since it will be likely
+    # exactly what we will get in the other
+    # methods.
+    # - SL
+
     my $data = $discovery_client->describedby->body;
 
     my $id     = $data->{'id'};
@@ -60,16 +69,38 @@ sub discover {
 sub jackalope_linkrel_to_spore_method {
     my ($self, $linkrel) = @_;
 
+    # NOTE:
+    # We make some assumptions here
+    # based on the opinions found in
+    # Jackalope::REST::CRUD services
+    # and general Jackalope::REST
+    # usage. These assumptions are
+    # detailed below.
+    # - SL
+
     my %additional;
 
     if ( exists $linkrel->{'data_schema'} ) {
         my $data_schema = $linkrel->{'data_schema'};
 
+        # ASSUMPTION:
+        # PUT and POST are typically
+        # for 'update' and 'create'
+        # so we can expect them to
+        # have a payload and for it
+        # to have the expected
+        # content-type as well.
         if ($linkrel->{'method'} eq 'PUT' || $linkrel->{'method'} eq 'POST') {
             $additional{'header'}           = { 'content-type' => 'application/json' };
             $additional{'required_payload'} = 1;
         }
 
+        # ASSUMPTION:
+        # If we have a GET and some
+        # data_schema items then we
+        # can assume that these are
+        # required/optional params
+        # based on the data_schema
         if ($linkrel->{'method'} eq 'GET') {
 
             if ( exists $data_schema->{'properties'} ) {
@@ -87,6 +118,11 @@ sub jackalope_linkrel_to_spore_method {
         }
     }
 
+    # ASSUMPTION
+    # A uri_schema will alert
+    # us to the need to have
+    # come required params for
+    # the URI template
     if ( exists $linkrel->{'uri_schema'} ) {
         my $uri_schema = $linkrel->{'uri_schema'};
         $additional{'required_params'} = [
@@ -94,6 +130,13 @@ sub jackalope_linkrel_to_spore_method {
         ];
     }
 
+    # ASSUMPTION
+    # these are assumptions that we
+    # make based on the default behaviors
+    # that are in Jackalope::REST::CRUD
+    # target classes, this might be going
+    # to far, but honestly this is a
+    # pretty sane set of defaults to go by.
     $additional{'expected_status'} = [ 200 ] if $linkrel->{'method'} eq 'GET' || $linkrel->{'method'} eq 'OPTIONS';
     $additional{'expected_status'} = [ 201 ] if $linkrel->{'method'} eq 'POST';
     $additional{'expected_status'} = [ 202 ] if $linkrel->{'method'} eq 'PUT';
